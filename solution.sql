@@ -3,7 +3,7 @@ create table if not exists employees (
     first_name varchar(30),
     last_name varchar(30),
     date_of_birth date,
-    salary decimal(5,2),
+    salary double precision,
     position varchar(40)
 );
 
@@ -20,7 +20,8 @@ select * from employees where position='tester';
 select * from employees where (current_date - employees.date_of_birth) / 365 >= 30;
 update employees set salary=(salary * 1.1) where position = 'programista';
 
-select * from employees where date_of_birth = (select e.date_of_birth from employees e order by e.date_of_birth desc limit 1);
+-- select * from employees where date_of_birth = (select e.date_of_birth from employees e order by e.date_of_birth desc limit 1);
+select * from employees where date_of_birth = (select max(e.date_of_birth) from employees e);
 
 drop table employees;
 
@@ -28,7 +29,7 @@ create table if not exists position (
     id int primary key AUTO_INCREMENT,
     name varchar(40) unique not null,
     description varchar(1000),
-    salary decimal(5,2) not null
+    salary double precision not null
 );
 
 create table if not exists address (
